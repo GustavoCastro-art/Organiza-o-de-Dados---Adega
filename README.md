@@ -58,5 +58,6 @@ O fluxo operacional e as entidades do sistema foram modelados com base no seguin
 . Denner RGM: 4733816
 . Guilherme Schiavinato RGM: 47769068
 . Gustavo Castro RGM: 47353716
+. Juan Craveiro RGM: 45005273
 . Victor Silva RGM: 47787945
 
