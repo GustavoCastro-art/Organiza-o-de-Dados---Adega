@@ -1,4 +1,4 @@
-# Organiza-o-de-Dados---Adega
+# Organizaço-de-Dados---Adega
 
 O **Adega Online** é um software de automação comercial e gestão de banco de dados desenvolvido para otimizar as operações diárias de um estabelecimento que atua nos segmentos de adega e tabacaria. O sistema visa solucionar uma crise operacional eliminando processos manuais, centralizando o fluxo de caixa, o controle rígoso de estoque e a gestão de créditos internos ("fiados").
 
