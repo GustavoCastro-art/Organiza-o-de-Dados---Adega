@@ -136,121 +136,69 @@ A proposta do sistema é reduzir a dependência de processos manuais e integrar 
 
 # 4. Regras de Negócio
 
-## Regras operacionais
+### Regras de negócio — versão atualizada
 
-### RN01 — Validação de estoque
-
-Uma venda somente pode ser concluída se houver quantidade suficiente do produto em estoque. O sistema não deve permitir que uma venda gere estoque negativo. 
-
-### RN02 — Condição para venda fiada
-
-Uma venda na modalidade fiado somente pode ser realizada quando o cliente estiver cadastrado, ativo e dentro do limite de crédito ou prazo estabelecido. O prazo de pagamento é ate uma semana, caso não seja pago o estabelecimento não prestara serviço ate o pagamento ser realizado ou um acordo ser feito com o cliente, independente do tempo de atraso do pagamento do fiado não será cobrado taxa ou juros que poderá ser pago por debito/credito, pix e dinheiro.
-
-### RN03 — Fechamento de caixa
-
-O caixa diário somente deve ser encerrado após a conferência e o registro das movimentações realizadas durante o período.
-
-### RN04 — Obrigatoriedade de operador
-
-As movimentações de venda e alterações realizadas no sistema devem estar vinculadas ao usuário responsável, permitindo a identificação das operações.
-
-## Restrições organizacionais
-
-### RN05 — Proibição de venda de bebidas alcoólicas a menores
-
-A venda de bebidas alcoólicas a menores de idade é proibida. O processo de venda deve observar essa restrição legal e realizar a conferência de identidade quando necessário.
-
-### RN06 — Política de crédito
-
-A organização estabelece limites para compras fiadas. Quando o cliente ultrapassar o limite definido, novas compras a prazo devem ser bloqueadas até que ocorra a quitação parcial ou total do débito, conforme a política estabelecida.
-
-### RN07 — Acesso restrito a funções gerenciais
-
-Funções críticas, como alterações manuais de preços, exclusão de registros e liberação de crédito especial, devem ser restritas aos usuários com perfil de gerente.
-
-### RN08 - Controle de estoque 
-
-Parte essencial que analisa com um sistema interno quantos produtos foram vendidos e o reabastecimento sempre é feito por distribuidoras diversas como o atacadão. 
+- **RN01 — Controle de pagamentos:** Todo pagamento registrado deve estar associado a um caixa.
+- **RN02 — Identificação do cliente:** Toda venda deve possuir um cliente cadastrado e associado.
+- **RN03 — Telefones do cliente:** Cada cliente deve possuir pelo menos um telefone cadastrado.
+- **RN04 — Conferência de pagamentos:** Quando uma venda possuir mais de um pagamento, a soma dos valores pagos deve corresponder ao total da venda.
+- **RN05 — Segurança de acesso:** As senhas dos usuários devem ser armazenadas por meio de hash, e cada usuário deve possuir login e nível de acesso.
+- **RN06 — Integridade dos dados:** Os dados derivados devem ser calculados ou controlados pelo sistema, evitando inconsistências entre informações armazenadas.
+- **RN07 — Troco:** O troco deve ser calculado somente para pagamentos em dinheiro.
+- **RN08 — Venda por atacado:** O preço de atacado deve ser aplicado quando a quantidade de produtos atingir a quantidade mínima definida para essa modalidade.
+- **RN09 — Controle de estoque:** O estoque deve ser atualizado automaticamente após vendas e entradas de mercadorias.
+- **RN10 — Totalização:** O valor total da venda deve corresponder à soma dos itens vendidos, considerando suas quantidades e preços unitários.
+- **RN11 — Controle de caixa:** O sistema deve controlar a abertura e o fechamento dos caixas, impedindo situações incompatíveis com as regras de funcionamento.
+- **RN12 — Padronização de endereços:** Os dados de endereço devem utilizar o CEP como referência para evitar a repetição de informações de logradouro, bairro, cidade e estado.
+- **RN13 — Cupom fiscal:** Cada venda poderá possuir, no máximo, um cupom fiscal associado.
 
 ---
 
-# 5. Dicionario de Dados Conceitual
+# 5. Dicionário de dados
 
-### Entidade: CLIENTE
+O dicionário de dados apresenta as entidades, seus atributos e suas respectivas funções no sistema Adega Online — Gestão de Vendas e Estoque.
 
-| Atributo | Tipo | Descrição |
+| Entidade | Principais atributos | Descrição |
 |---|---|---|
-| id_cliente | INT | Identificador único do cliente. |
-| nome | VARCHAR(100) | Nome completo do cliente. |
-| numero | VARCHAR(10) | Número do endereço. |
-| complemento | VARCHAR(60) | Complemento do endereço. |
-| cep | CHAR(8) | Chave estrangeira relacionada à entidade CEP. |
+| USUARIO | id_usuario, nome, login, senha_hash, nivel_acesso | Armazena os dados dos usuários que acessam o sistema. |
+| CAIXA | id_caixa, numero_caixa, data_hora_abertura, data_hora_fechamento, valor_inicial, valor_final, id_usuario | Registra a abertura, o funcionamento e o fechamento dos caixas. |
+| CEP | cep, logradouro, bairro, cidade, uf | Armazena os dados de endereço vinculados ao CEP. |
+| CLIENTE | id_cliente, nome, numero, complemento, cep | Armazena os dados cadastrais dos clientes. |
+| TELEFONE_CLIENTE | id_telefone, id_cliente, telefone | Armazena os telefones associados aos clientes. |
+| VENDA | id_venda, data_hora, total, id_caixa, id_cliente | Registra as vendas realizadas no sistema. |
+| ITEM_VENDA | id_item_venda, id_venda, id_produto, quantidade, preco_unitario | Registra os produtos e quantidades que compõem cada venda. |
+| PAGAMENTO | id_pagamento, id_caixa, forma_pagamento, data_pagamento, valor_pago, troco | Registra os pagamentos recebidos pelo caixa. |
+| CUPOM_FISCAL | id_cupom, id_venda, numero_cupom, chave_acesso | Armazena os dados do cupom fiscal associado à venda. |
+| PRODUTO | id_produto, nome, preco, preco_atacado, qtd_minima_atacado, quantidade_estoque, estoque_minimo | Armazena os dados dos produtos e seu controle de estoque. |
+| FORNECEDOR | atributos definidos no modelo lógico | Armazena os dados dos fornecedores da adega. |
+| NF_ENTRADA | atributos definidos no modelo lógico, incluindo id_fornecedor | Registra notas fiscais de entrada de mercadorias. |
+| ITEM_NOTA | atributos definidos no modelo lógico, incluindo id_nota e id_produto | Registra os produtos e quantidades presentes em cada nota de entrada. |
+| CONTAS_A_PAGAR | atributos definidos no modelo lógico, incluindo referência à nota de entrada | Controla os valores a pagar aos fornecedores. |
 
-### Entidade: CEP
-
-| Atributo | Tipo | Descrição |
-|---|---|---|
-| cep | CHAR(8) | Identificador do CEP. |
-| logradouro | VARCHAR(120) | Rua ou avenida. |
-| bairro | VARCHAR(60) | Bairro do endereço. |
-| cidade | VARCHAR(60) | Cidade. |
-| uf | CHAR(2) | Unidade federativa. |
-
-### Entidade: USUARIO
-
-| Atributo | Tipo | Descrição |
-|---|---|---|
-| id_usuario | INT | Identificador do usuário. |
-| nome | VARCHAR(100) | Nome do usuário. |
-| login | VARCHAR(50) | Identificação de acesso. |
-| senha_hash | VARCHAR(255) | Senha armazenada em formato de hash. |
-| nivel_acesso | VARCHAR(20) | Nível de permissão do usuário. |
-
-### Entidade: PRODUTO
-
-| Atributo | Tipo | Descrição |
-|---|---|---|
-| id_produto | INT | Identificador do produto. |
-| nome | VARCHAR(120) | Nome do produto. |
-| preco | DECIMAL(10,2) | Preço de venda. |
-| preco_atacado | DECIMAL(10,2) | Preço de atacado. |
-| qtd_minima_atacado | INT | Quantidade mínima para atacado. |
-| quantidade_estoque | INT | Quantidade disponível. |
-| estoque_minimo | INT | Limite mínimo de estoque.
 ---
 
 # 6. Modelagem Conceitual (Entidades, Atributos, Relacionamentos)
 
-USUARIO
+### 6. Entidades do modelo lógico
 
-CAIXA
+O modelo lógico do sistema Adega Online é composto pelas seguintes entidades:
 
-CEP
+1. **USUARIO:** controla os usuários e seus níveis de acesso.
+2. **CAIXA:** registra os caixas e suas operações de abertura e fechamento.
+3. **CEP:** centraliza os dados de endereço.
+4. **CLIENTE:** armazena os dados cadastrais dos clientes.
+5. **TELEFONE_CLIENTE:** permite registrar os telefones dos clientes.
+6. **VENDA:** registra as vendas realizadas.
+7. **ITEM_VENDA:** relaciona os produtos e suas quantidades em cada venda.
+8. **PAGAMENTO:** registra os pagamentos recebidos pelo caixa.
+9. **CUPOM_FISCAL:** armazena os dados fiscais associados às vendas.
+10. **PRODUTO:** mantém o cadastro dos produtos e suas informações de estoque e preço.
+11. **FORNECEDOR:** registra os fornecedores.
+12. **NF_ENTRADA:** registra as notas fiscais de entrada.
+13. **ITEM_NOTA:** relaciona os produtos às respectivas notas fiscais de entrada.
+14. **CONTAS_A_PAGAR:** controla os compromissos financeiros da adega com seus fornecedores.
 
-CLIENTE
-
-TELEFONE_CLIENTE
-
-VENDA
-
-ITEM_VENDA
-
-PAGAMENTO
-
-CUPOM_FISCAL
-
-PRODUTO
-
-FORNECEDOR
-
-NF_ENTRADA
-
-ITEM_NOTA
-
-CONTAS_A_PAGAR
-
-## Atributos e classificações
-
+O modelo contempla as operações de venda, recebimento, controle de estoque, entrada de mercadorias e obrigações financeiras com fornecedores.
 Cada entidade possui atributos responsáveis por identificar e descrever os elementos armazenados no modelo. Os identificadores são utilizados para distinguir cada registro, enquanto os demais atributos representam as informações necessárias para os processos da organização.
 
 ## Relacionamentos
@@ -273,7 +221,18 @@ O modelo considera as regras de estoque, crédito, identificação do operador e
 
 O DER representa graficamente as entidades, atributos, relacionamentos e cardinalidades identificados durante o levantamento.
 
-![Diagrama Entidade-Relacionamento](der/DER-Adega-Online.png)
+Relacionamento	            Cardinalidade
+USUARIO — CAIXA	              0:N — 1:1
+CAIXA — PAGAMENTO	          0:N — 1:1
+CAIXA — VENDA	              0:N — 1:1
+CEP — CLIENTE	              0:N — 1:1
+CLIENTE — TELEFONE_CLIENTE	  1:N — 1:1
+CLIENTE — VENDA               0:N — 1:1
+VENDA — CUPOM_FISCAL	      0:1 — 1:1
+VENDA — PRODUTO	              1:N — 0:N
+FORNECEDOR — NF_ENTRADA	      0:N — 1:1
+NF_ENTRADA — PRODUTO	      1:N — 0:N
+NF_ENTRADA — CONTAS_A_PAGAR	  0:N — 1:1
 
 O arquivo do DER deve ser mantido separadamente no repositório, conforme solicitado pela atividade.
 
@@ -281,20 +240,21 @@ O arquivo do DER deve ser mantido separadamente no repositório, conforme solici
 
 # 8. Justificativa Técnica
 
-A modelagem foi construída a partir dos processos observados na Adega Online e dos requisitos levantados para o sistema.
+A modelagem lógica do sistema Adega Online foi estruturada para organizar os dados relacionados às vendas, aos clientes, aos produtos, aos caixas e ao controle financeiro da adega.
 
-A entidade **PRODUTO** foi definida porque o estabelecimento precisa identificar e controlar as mercadorias comercializadas. O relacionamento com **ESTOQUE** permite representar a quantidade disponível de cada produto.
+A separação das informações em entidades específicas contribui para a organização, a integridade e a manutenção do banco de dados.
 
-A entidade **VENDA** foi utilizada para centralizar as informações de cada operação comercial, como data, total e forma de pagamento. Como uma venda pode envolver diferentes produtos, o relacionamento **itens_venda_rei** registra a quantidade e o preço unitário de cada item.
+A entidade CEP foi utilizada para centralizar os dados de endereço, evitando a repetição de informações em diferentes registros de clientes. A entidade TELEFONE_CLIENTE foi criada para permitir que um cliente possua mais de um telefone cadastrado.
 
-A entidade **CLIENTE** foi incluída devido à existência do processo de compras a prazo. O relacionamento de fiado permite associar as vendas aos clientes correspondentes.
+A entidade ITEM_VENDA representa o relacionamento entre vendas e produtos, permitindo registrar a quantidade e o preço unitário de cada produto vendido. De forma semelhante, ITEM_NOTA relaciona os produtos às notas fiscais de entrada.
 
-A entidade **USUARIO** representa os operadores responsáveis pelas movimentações e permite considerar o controle de acesso previsto nos requisitos não funcionais e nas regras de negócio.
+A entidade PAGAMENTO foi separada de VENDA para registrar as movimentações financeiras recebidas pelo caixa, contemplando dinheiro, cartão de débito, cartão de crédito e PIX.
 
-As cardinalidades do DER foram definidas de acordo com a forma como os processos foram representados no modelo conceitual atual, buscando permitir a identificação dos participantes de cada operação e a composição das vendas por produtos.
+O controle de estoque foi integrado à entidade PRODUTO, que armazena a quantidade disponível e o estoque mínimo. Também foram incluídas as entidades FORNECEDOR, NF_ENTRADA e CONTAS_A_PAGAR para representar o processo de aquisição de mercadorias e os compromissos financeiros da adega com seus fornecedores.
 
-O modelo também foi estruturado de maneira que possa servir como base para as próximas etapas do projeto, nas quais poderão ser detalhadas as estruturas físicas do banco de dados e as funcionalidades do sistema.
+A modelagem utiliza chaves primárias e estrangeiras para estabelecer os relacionamentos entre as entidades e manter a integridade referencial. A organização dos dados busca reduzir redundâncias e facilitar futuras consultas, atualizações e operações do sistema.
 
+O modelo foi elaborado considerando o MySQL 8.0.16 ou superior, especialmente para utilização de restrições de integridade, como as cláusulas CHECK.
 ---
 
 # 9. Uso de Inteligência Artificial
@@ -324,18 +284,16 @@ Organiza-o-de-Dados---Adega/
 ├── README.md
 │
 ├── der/
-│   ├── DER-Adega-Online.png
-│   └── DER-Adega-Online.pdf
+│   └── der_atualizado.png
 │
-├── documentos/
-│   ├── modelo_logico_corrigido_v2.pdf
-│   ├── dicionario_de_dados.md
-│   ├── regras_de_negocio.md
-│   └── alteracoes_modelagem.md
+├── evidencias/
+│   └── ...
 │
-└── evidencias/
-    ├── adega-online.jpg
-    └── pesquisa-campo.jpg
+└── documentos/
+    ├── modelo_logico_corrigido_v2.pdf
+    ├── dicionario_de_dados.md
+    ├── regras_de_negocio.md
+    └── alteracoes_modelagem.md
 ```
 
 ---
