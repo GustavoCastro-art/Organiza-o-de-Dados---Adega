@@ -14,7 +14,7 @@ O projeto tem como foco centralizar o cadastro de produtos, o controle de estoqu
 |---|---:|
 | Denner | 4733816 |
 | Guilherme Schiavinato | 47769068 |
-| Igor Hideki | 4755867 |
+| Igor Hideki | 47658673 |
 | Juan Craveiro | 45005273 |
 | Victor Silva | 47787945 |
 
