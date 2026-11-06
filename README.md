@@ -14,7 +14,7 @@ O projeto tem como foco centralizar o cadastro de produtos, o controle de estoqu
 |---|---:|
 | Denner | 4733816 |
 | Guilherme Schiavinato | 47769068 |
-| Gustavo Castro | 47353716 |
+| Igor Hideki | 4755867 |
 | Juan Craveiro | 45005273 |
 | Victor Silva | 47787945 |
 
@@ -221,6 +221,8 @@ O modelo considera as regras de estoque, crédito, identificação do operador e
 
 O DER representa graficamente as entidades, atributos, relacionamentos e cardinalidades identificados durante o levantamento.
 
+![Diagrama Entidade-Relacionamento da Adega Online](der/DER.png)
+
 Relacionamento	            Cardinalidade
 USUARIO — CAIXA	              0:N — 1:1
 CAIXA — PAGAMENTO	          0:N — 1:1
@@ -234,7 +236,10 @@ FORNECEDOR — NF_ENTRADA	      0:N — 1:1
 NF_ENTRADA — PRODUTO	      1:N — 0:N
 NF_ENTRADA — CONTAS_A_PAGAR	  0:N — 1:1
 
-O arquivo do DER deve ser mantido separadamente no repositório, conforme solicitado pela atividade.
+## Modelo lógico
+
+- [Modelo lógico corrigido (PDF)](der/modelo_logico_corrigido.pdf)
+- [Modelo lógico corrigido — versão 2 (PDF)](der/modelo_logico_corrigido_v2.pdf)
 
 ---
 
@@ -284,13 +289,14 @@ Organiza-o-de-Dados---Adega/
 ├── README.md
 │
 ├── der/
-│   └── der_atualizado.png
+│   ├── DER.png
+│   ├── modelo_logico_corrigido.pdf
+│   └── modelo_logico_corrigido_v2.pdf
 │
 ├── evidencias/
 │   └── ...
 │
 └── documentos/
-    ├── modelo_logico_corrigido_v2.pdf
     ├── dicionario_de_dados.md
     ├── regras_de_negocio.md
     └── alteracoes_modelagem.md
