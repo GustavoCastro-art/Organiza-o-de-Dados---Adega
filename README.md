@@ -6,7 +6,7 @@ O projeto tem como foco centralizar o cadastro de produtos, o controle de estoqu
 
 ---
 
-## Metadados
+## Metadados 
 
 ### Integrantes
 
