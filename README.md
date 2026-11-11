@@ -5,7 +5,7 @@ Sistema de automação comercial e gestão de dados desenvolvido para apoiar as 
 O projeto tem como foco centralizar o cadastro de produtos, o controle de estoque, o registro de vendas, o gerenciamento de clientes que realizam compras a prazo ("fiado") e o acompanhamento das operações realizadas pelos usuários do sistema.
 
 ---
-
+ 
 ## Metadados 
 
 ### Integrantes
